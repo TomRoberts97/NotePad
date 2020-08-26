@@ -28,10 +28,10 @@ public class CustomListAdapter extends ArrayAdapter<WorkSession> {
 
         // setting date text view
         TextView textView = convertView.findViewById(R.id.ListItem_tfDate);
-        Date date = workSession.getCurrentTime();
+        /*Date date = workSession.getCurrentTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String strDate = dateFormat.format(date);
-        textView.setText(strDate);
+        String strDate = dateFormat.format(date);*/
+        textView.setText(workSession.getCurrentDate());
         //setting num text view
         TextView textView2 = convertView.findViewById(R.id.ListItem_tfDescription);
         textView2.setText( workSession.getSessionDescription());

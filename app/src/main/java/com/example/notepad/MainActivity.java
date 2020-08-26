@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
             notes = new ArrayList<>(set);
         }*/
 
-        WorkSession workSession = new WorkSession(1, Calendar.getInstance().getTime(), "Example session!");
+        WorkSession workSession = new WorkSession(1, "21/08/2020", "Example session!");
         workSessionArrayList.add(workSession);
-        workSessionArrayList.add(new WorkSession(2, Calendar.getInstance().getTime(), "Example session 2!"));
+        workSessionArrayList.add(new WorkSession(2, "21/08/2020", "Example session 2!"));
         //notes.add("Example note");
 
         //arrayAdapter = new CustomListAdapter(this, workSessionArrayList);
@@ -89,8 +89,16 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "selected", Toast.LENGTH_LONG).show();
 
+
+                //Deneme dene = new Deneme(4,"Mustafa");
+               // Intent i = new Intent(this, NoteEditorActivity.class);
+                //i.putExtra("sampleObject", dene);
+                //startActivity(i);
+                WorkSession obj = workSessionArrayList.get(i);
+
+
                 Intent intent = new Intent(getApplicationContext(),NoteEditorActivity.class);
-                //intent.putExtra("noteId", i);
+                intent.putExtra("sessionObject", obj);
                 startActivity(intent);
             }
         });

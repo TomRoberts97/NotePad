@@ -23,16 +23,23 @@ public class NoteEditorActivity extends AppCompatActivity {
         EditText editText = (EditText)  findViewById(R.id.editText);
 
         Intent intent = getIntent();
-        noteId = intent.getIntExtra("noteId", -1);
+
+        //WorkSession workSession = (WorkSession)intent.getSerializableExtra("sampleObject");
+        WorkSession uobj = getIntent().getParcelableExtra("sessionObject");
+
+        editText.setText(uobj.getSessionDescription());
+
+
+        /*noteId = intent.getIntExtra("noteId", -1);
         if(noteId != -1){
             editText.setText(MainActivity.notes.get(noteId));
         } else {
             MainActivity.notes.add("");
             noteId = MainActivity.notes.size() - 1;
             MainActivity.arrayAdapter.notifyDataSetChanged();
-        }
+        }*/
 
-        editText.addTextChangedListener(new TextWatcher() {
+       /* editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -52,6 +59,6 @@ public class NoteEditorActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
             }
-        });
+        });*/
     }
 }
