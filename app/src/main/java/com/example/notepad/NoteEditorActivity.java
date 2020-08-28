@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.HashSet;
 
@@ -21,13 +22,18 @@ public class NoteEditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_editor);
 
         EditText editText = (EditText)  findViewById(R.id.editText);
+        TextView textView1 = (TextView) findViewById(R.id.sessionNumberTextView);
+        TextView textView2 = (TextView) findViewById(R.id.sessionDateTextView);
 
+        // code to get object info from main activity
         Intent intent = getIntent();
-
         //WorkSession workSession = (WorkSession)intent.getSerializableExtra("sampleObject");
         WorkSession uobj = getIntent().getParcelableExtra("sessionObject");
-
+        //String text1 = String.valueOf(uobj.getSessionNumber());
+        textView1.setText(String.valueOf(uobj.getSessionNumber()));
+        textView2.setText(uobj.getCurrentDate());
         editText.setText(uobj.getSessionDescription());
+
 
 
         /*noteId = intent.getIntExtra("noteId", -1);

@@ -41,7 +41,7 @@ public class WorkSession implements Parcelable {
         this.sessionNumber= Integer.parseInt(data[0]);
         /*Date date = this.currentTime;
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String strDate = dateFormat.format(date);
+        String str Date = dateFormat.format(date);
         strDate = data[1];*/
         this.currentDate= data[1]; //the way its meant to be , not sure on correct conversion to String
         this.sessionDescription= data[2];
