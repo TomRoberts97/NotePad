@@ -19,6 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -26,9 +30,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    static List<WorkSession> workSessionArrayList = new ArrayList<>();
+    static List<WorkSession> workSessionArrayList;
     static ArrayList<String> notes = new ArrayList<>();
     static CustomListAdapter arrayAdapter;
+    static CustomListAdapter adapter;
     private ListView listView;
 
     @Override
@@ -58,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        loadData();
+
         listView = findViewById(R.id.ListView);
         // below is used to have permenent storage of the data
      /*   SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.notepad", Context.MODE_PRIVATE);
@@ -69,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
             notes = new ArrayList<>(set);
         }*/
 
-        WorkSession workSession = new WorkSession(1, "21/08/2020", "Example session!");
-        workSessionArrayList.add(workSession);
-        workSessionArrayList.add(new WorkSession(2, "21/08/2020", "Example session 2!"));
-        //notes.add("Example note");
+        //WorkSession workSession = new WorkSession(1, "21/08/2020", "Example session!");
+        //workSessionArrayList.add(workSession);
+        //workSessionArrayList.add(new WorkSession(2, "21/08/2020", "Example session 2!"));
+
 
         //arrayAdapter = new CustomListAdapter(this, workSessionArrayList);
         //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, notes);
@@ -117,11 +124,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 workSessionArrayList.remove(itemToDelete);
-                                arrayAdapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
 
-                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.notepad", Context.MODE_PRIVATE);
+                                savaData();
+                                /*SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.notepad", Context.MODE_PRIVATE);
                                 HashSet<String> set = new HashSet<>(MainActivity.notes);
-                                sharedPreferences.edit().putStringSet("notes",set).apply();
+                                sharedPreferences.edit().putStringSet("notes",set).apply();*/
                             }
                         })
                         .setNegativeButton("No", null)
@@ -132,12 +140,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void inflateListView(List<WorkSession> likedQuoteIdList) {
-        CustomListAdapter adapter = new CustomListAdapter(this, likedQuoteIdList);
+        adapter = new CustomListAdapter(this, likedQuoteIdList);
         listView.setAdapter(adapter);
 
         listView.setDivider(null);
         listView.setDividerHeight(0);
     }
 
+    public void savaData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(workSessionArrayList);
+        editor.putString("session list", json);
+        editor.apply();
+    }
+
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("session list", null);
+        Type type = new TypeToken<ArrayList<WorkSession>>() {}.getType();
+        workSessionArrayList = gson.fromJson(json, type);
+
+        if(workSessionArrayList == null){
+            workSessionArrayList = new ArrayList<>();
+        }
+
+    }
 
 }
